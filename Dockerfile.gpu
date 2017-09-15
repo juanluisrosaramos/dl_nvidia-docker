@@ -198,19 +198,7 @@ ENV PYTHONPATH=$PYCAFFE_ROOT:$PYTHONPATH \
 
 RUN echo "$CAFFE_ROOT/build/lib" >> /etc/ld.so.conf.d/caffe.conf && ldconfig
 
-# Install the latest versions of nn, cutorch, cunn, cuDNN bindings and iTorch
-RUN luarocks install nn && \
-	luarocks install cutorch && \
-	luarocks install cunn && \
-    luarocks install loadcaffe && \
-	\
-	cd /root && git clone https://github.com/soumith/cudnn.torch.git && cd cudnn.torch && \
-	git checkout R4 && \
-	luarocks make && \
-	\
-	cd /root && git clone https://github.com/facebook/iTorch.git && \
-	cd iTorch && \
-	luarocks make
+
 
 
 # Install OpenCV
