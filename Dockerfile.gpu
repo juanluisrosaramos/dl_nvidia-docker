@@ -1,4 +1,4 @@
-FROM nvidia/cuda:8.0-cudnn6-devel-ubuntu16.04
+FROM nvidia/cuda:8.0-cudnn6-devel-ubuntu14.04
 
 LABEL authors="Sai Soundararaj <saip@outlook.com>, Pankesh Bamotra <pankesh.bamotra@gmail.com>"
 
@@ -93,21 +93,22 @@ RUN apt-get update && apt-get install -y \
 # Install cuDNN v6.0
 RUN wget http://developer.download.nvidia.com/compute/redist/cudnn/v6.0/${CUDNN_TAR_FILE} -P /root/downloads && \
     cd /root/downloads && \
-    tar -xzvf ${CUDNN_TAR_FILE}
-    
-ADD cuda/include/cudnn.h /usr/local/cuda-8.0/include
-ADD cuda/lib64/libcudnn* /usr/local/cuda-8.0/lib64/
-RUN chmod a+r /usr/local/cuda-8.0/lib64/libcudnn*
+   tar -xzvf ${CUDNN_TAR_FILE}
+###################################################    
+#ADD cuda/include/cudnn.h /usr/local/cuda-8.0/include
+#ADD cuda/lib64/libcudnn* /usr/local/cuda-8.0/lib64/
+#RUN chmod a+r /usr/local/cuda-8.0/lib64/libcudnn*
 
 ENV CUDA_HOME=/usr/local/cuda
 ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64 
 
-RUN cd /usr/local/cuda/lib64 && \
-    rm libcudnn.so && \
-    rm libcudnn.so.6 && \
-    ln libcudnn.so.6.* libcudnn.so.6 && \
-    ln libcudnn.so.6 libcudnn.so && \
-    ldconfig
+#RUN cd /usr/local/cuda/lib64 && \
+ #   rm libcudnn.so && \
+ #   rm libcudnn.so.6 && \
+ #   ln libcudnn.so.6.* libcudnn.so.6 && \
+ #   ln libcudnn.so.6 libcudnn.so && \
+ #   ldconfig
+###################################################    
 
 # Install pip
 RUN curl -O https://bootstrap.pypa.io/get-pip.py && \
@@ -174,6 +175,7 @@ RUN apt-get update && apt-get install -y \
 		libprotobuf-dev \
 		libsnappy-dev \
 		protobuf-compiler \
+		luarocks \
 		&& \
 	apt-get clean && \
 	apt-get autoremove && \
